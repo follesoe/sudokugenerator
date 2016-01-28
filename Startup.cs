@@ -1,19 +1,22 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
+using System.Threading.Tasks;
 using Microsoft.AspNet.Builder;
+using Microsoft.AspNet.Hosting;
 using Microsoft.AspNet.Http;
-using Microsoft.Framework.Logging;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
+using System.Text;
 
-namespace SudokuGenerator
+namespace helloaspnet5
 {
     public class Startup
     {
-        public void Configure(IApplicationBuilder app, ILoggerFactory loggerFactory)
+        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
-            loggerFactory.AddConsole();
-
             app.Run(async context =>
             {
                 context.Response.Headers.Add("Access-Control-Allow-Origin", new[] { "*" });
@@ -24,6 +27,9 @@ namespace SudokuGenerator
                 await context.Response.WriteAsync(json);
             });
         }
+
+        // Entry point for the application.
+        public static void Main(string[] args) => WebApplication.Run<Startup>(args);
     }
 
     internal sealed class SudokuPuzzle
